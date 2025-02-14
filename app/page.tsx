@@ -1,13 +1,22 @@
+"use client"
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Briefcase, Users, DollarSign, BarChart2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import {getJokes} from "@/app/actions/actions";
+import {getCookie, getJokes} from "@/app/actions/actions";
+import {useAuthStore} from "@/app/authStore";
 
-export  default async function DashboardPage() {
-    const out = await getJokes();
+export  default function DashboardPage() {
 
-    console.log(JSON.stringify(out));
+  const {user } = useAuthStore();
+    const out = getJokes();
+
+    // console.log(JSON.stringify(out));
+
+  const token = getCookie('whateverToken');
+
+  console.log(JSON.stringify(user));
 
   return (
     <div className="space-y-6">
