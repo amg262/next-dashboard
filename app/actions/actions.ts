@@ -1,6 +1,6 @@
 "use server"
 
-import {get, getCookie} from "@/app/fetchWrapper";
+import {get, getCookie} from "@/lib/fetchWrapper";
 import {cookies} from "next/headers";
 
 export async function getJokes() {

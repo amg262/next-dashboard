@@ -3,7 +3,7 @@ import { Briefcase, Users, DollarSign, BarChart2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import {getJokes} from "@/app/actions/actions";
-import {getCookie} from "@/app/fetchWrapper";
+import {getCookie} from "@/lib/fetchWrapper";
 import {useAuthStore} from "@/hooks/authStore";
 
 export default async function DashboardPage() {
