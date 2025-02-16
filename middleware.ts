@@ -1,16 +1,27 @@
-import {NextResponse} from 'next/server'
 import type {NextRequest} from 'next/server'
-import {getCookie} from "@/app/actions/actions";
+import {NextResponse} from 'next/server'
 
 export async function middleware(request: NextRequest) {
-    const token = request.cookies.get('whateverToken')
+    // First try to get the token from cookies
+    let token: string | undefined = request.cookies.get('whateverToken')?.value
 
-    // const token2 = await getCookie('whateverToken')
+    // If no cookie token is found, check for Bearer token in Authorization header
+    if (!token) {
+        const authHeader = request.headers.get('authorization')
 
+        // Check if it's a Bearer token and extract the actual token
+        if (authHeader?.startsWith('Bearer ')) {
+            token = authHeader.substring(7)
+        }
+    }
 
-    console.log("middleware token: ", token);
-    // Protect routes that require authentication
-    if (!token && request.nextUrl.pathname.startsWith('/protected')) {
+    console.log("middleware token:", token)
+
+    // Protect all routes except authentication routes
+    // Both token types are now handled by this single check
+    if (!token &&
+        !request.nextUrl.pathname.startsWith('/auth') &&
+        !request.nextUrl.pathname.startsWith('/login')) {
         return NextResponse.redirect(new URL('/login', request.url))
     }
 
@@ -18,5 +29,8 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-    matcher: '/protected/:path*'
+    matcher: [
+        // Match all request paths except specific system paths
+        '/((?!api|_next/static|_next/image|favicon.ico).*)',
+    ],
 }
