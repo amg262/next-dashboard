@@ -6,14 +6,14 @@ import {getJokes} from "@/app/actions/actions";
 import {getCookie} from "@/app/fetchWrapper";
 import {useAuthStore} from "@/hooks/authStore";
 
-export  default function DashboardPage() {
+export default async function DashboardPage() {
 
   // const {user } = useAuthStore();
     const out = getJokes();
 
     console.log(JSON.stringify(out));
 
-  const token = getCookie('whateverToken');
+  const token = await getCookie('whateverToken');
 
   // console.log(JSON.stringify(user));
 

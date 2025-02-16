@@ -62,7 +62,7 @@ export async function getBaseRequestOptions(method: string, headers: HeadersInit
 }
 
 export async function getCookie(name: string): Promise<string | null> {
-    const cookieStore = cookies()
+    const cookieStore = await cookies()
     return cookieStore.get(name)?.value ?? null
 }
 
